@@ -13,7 +13,7 @@ seed = 3
 epsilon = 0.7
 discount_factor = 1
 learning_rate = 0.7
-iterations = 10
+iterations = 500
 RNG = np.random.RandomState(seed)
 
 # q value for state action pairs (in route, new_route)
@@ -139,6 +139,6 @@ def train():
     ax1.set_xlabel('iteration')
     ax1.plot('iteration', 'value', data=actualdataframe, marker='o', color='mediumvioletred')
     plt.show()
-    #with open("Policy", 'x') as save_file:
-        #pickle.dump(q_values, save_file)
+    with open("Policy.txt", 'xb') as save_file:
+        pickle.dump(q_values, save_file)
     return [iterations, solutionList, valueList]
