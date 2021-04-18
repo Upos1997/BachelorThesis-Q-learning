@@ -1,3 +1,5 @@
+import pickle
+
 import numpy as np
 from matplotlib import pyplot as plt
 import pandas as pd
@@ -13,7 +15,7 @@ seed = 3
 epsilon = 0.9
 discount_factor = 1
 learning_rate = 0.7
-iterations = 1000
+iterations = 10
 RNG = np.random.RandomState(seed)
 
 # q value for state action pairs (in route, new_route)
@@ -128,8 +130,11 @@ def train():
         valueList.append(calc_value(state))
         solutionList.append(state)
         print(episode)
-    dataframe = pd.DataFrame({'iteration': range(1, iterations
-                                                 ), 'value': valueList})
+
+    with open("policy.txt", 'xb') as save_file:
+        pickle.dump(q_values, save_file)
+
+    dataframe = pd.DataFrame({'iteration': range(1, iterations), 'value': valueList})
     actualdataframe = dataframe.rolling(20).mean()
     fig = plt.figure()
     ax1 = fig.add_subplot(211)
