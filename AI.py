@@ -7,7 +7,7 @@ from Environment import get_actions, environment, calc_length
 
 # variables
 vehicle_number_weight = 0.5
-seed = 3
+seed = 1
 
 # learning variables
 epsilon = 0.7
