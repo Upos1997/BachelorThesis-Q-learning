@@ -7,13 +7,13 @@ from Environment import get_actions, environment, calc_length
 
 # variables
 vehicle_number_weight = 0.5
-seed = 1
+seed = 23
 
 # learning variables
 epsilon = 0.7
 discount_factor = 1
 learning_rate = 0.7
-iterations = 500
+iterations = 1000
 RNG = np.random.RandomState(seed)
 
 # q value for state action pairs (in route, new_route)
