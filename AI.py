@@ -1,21 +1,19 @@
-import pickle
-
 import numpy as np
 from matplotlib import pyplot as plt
 import pandas as pd
-
+import pickle
 import BST
-from Environment import get_actions, environment, calc_length, max_vehicles
+from Environment import get_actions, environment, calc_length
 
 # variables
 vehicle_number_weight = 0.5
-seed = 3
+seed = 2021
 
 # learning variables
-epsilon = 0.9
+epsilon = 0.7
 discount_factor = 1
 learning_rate = 0.7
-iterations = 10
+iterations = 500
 RNG = np.random.RandomState(seed)
 
 # q value for state action pairs (in route, new_route)
@@ -50,13 +48,13 @@ def max_q(state):
 
 
 # epsilon greedy action chooser
-def next_action(state):
+def next_action(state, greedy):
     def get_q_map(possible_action):
         return get_q(state, possible_action)
 
     possible_actions = get_actions(state)
     action_q_values = list(map(get_q_map, possible_actions))
-    if RNG.uniform(0, 1) < epsilon:
+    if RNG.uniform(0, 1) < greedy:
         return possible_actions[np.argmax(action_q_values)]
     else:
         return possible_actions[RNG.randint(0, len(possible_actions))]
@@ -99,7 +97,9 @@ def train():
         # start
         def start_route(point):
             return [point]
-
+        greedy=epsilon
+        if episode == iterations-1:
+            greedy=1
         state = list(map(start_route, range(1, len(environment))))
         end = False
         previous_value = calc_mid_value(state)
@@ -107,7 +107,7 @@ def train():
         # take actions until end
         while not end:
             # choose action
-            action = next_action(state)
+            action = next_action(state, greedy)
             # take action
             old_state = state
             if action == "End":
@@ -130,11 +130,8 @@ def train():
         valueList.append(calc_value(state))
         solutionList.append(state)
         print(episode)
-
-    with open("policy.txt", 'xb') as save_file:
-        pickle.dump(q_values, save_file)
-
-    dataframe = pd.DataFrame({'iteration': range(1, iterations), 'value': valueList})
+    dataframe = pd.DataFrame({'iteration': range(1, iterations
+                                                 ), 'value': valueList})
     actualdataframe = dataframe.rolling(20).mean()
     fig = plt.figure()
     ax1 = fig.add_subplot(211)
@@ -142,4 +139,6 @@ def train():
     ax1.set_xlabel('iteration')
     ax1.plot('iteration', 'value', data=actualdataframe, marker='o', color='mediumvioletred')
     plt.show()
+    with open("Policy.txt", 'xb') as save_file:
+        pickle.dump(q_values, save_file)
     return [iterations, solutionList, valueList]

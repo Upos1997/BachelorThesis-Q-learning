@@ -2,7 +2,7 @@ import CoordinateConverter
 
 max_vehicles = 2
 coordinates = "belgium-d1-n50"
-environment = CoordinateConverter.convert(coordinates)
+environment = CoordinateConverter.convert("datasets/"+coordinates)
 depot = int(0)
 
 

@@ -4,7 +4,7 @@ import tracemalloc
 import Environment
 import MinizincConverter
 import CSVWriter
-
+import pickle
 from Environment import max_vehicles, environment
 
 tracemalloc.start()
