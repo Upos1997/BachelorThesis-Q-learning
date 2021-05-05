@@ -17,3 +17,4 @@ def save_to_CSV(dataset, seed, solutions, solutionvalues, time, datasize):
             solution = solutions[iteration]
             value = solutionvalues[iteration]
             save_writer.writerow({'iteration': iteration, 'solution': solution, 'solutionvalue': value})
+        save_file.close()

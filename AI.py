@@ -15,7 +15,6 @@ discount_factor = 1
 learning_rate = 0.7
 iterations = 500
 RNG = np.random.RandomState(seed)
-
 # q value for state action pairs (in route, new_route)
 q_values = BST.Node(str([]), 0)
 emptyNode = BST.Node(str([]), 0)
@@ -88,18 +87,20 @@ def calc_mid_value(state):
     return max(list(map(calc_length, completed_routes)))
 
 
-
 valueList = []
 solutionList = []
+
+
 # training
 def train():
     for episode in range(1, iterations):
         # start
         def start_route(point):
             return [point]
-        greedy=epsilon
-        if episode == iterations-1:
-            greedy=1
+
+        greedy = epsilon
+        if episode == iterations - 1:
+            greedy = 1
         state = list(map(start_route, range(1, len(environment))))
         end = False
         previous_value = calc_mid_value(state)
@@ -141,4 +142,5 @@ def train():
     plt.show()
     with open("Policy.txt", 'xb') as save_file:
         pickle.dump(q_values, save_file)
+        save_file.close()
     return [iterations, solutionList, valueList]
