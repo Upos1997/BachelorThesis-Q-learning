@@ -13,7 +13,7 @@ seed = 2021
 epsilon = 0.7
 discount_factor = 1
 learning_rate = 0.7
-iterations = 500
+iterations = 2000
 RNG = np.random.RandomState(seed)
 # q value for state action pairs (in route, new_route)
 q_values = BST.Node(str([]), 0)
@@ -70,7 +70,7 @@ def calc_value(state):
         finished_route = route.copy()
         finished_route.insert(0, 0)
         finished_route.append(0)
-        return route
+        return finished_route
 
     completed_routes = list(map(complete_route, state))
     return len(state) * vehicle_number_weight * max(list(map(calc_length, completed_routes)))
